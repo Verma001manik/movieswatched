@@ -4,28 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        /* General Body Styling */
+        body {
+            background-color: #f0f4f8; /* Light grey-blue background */
+            color: #333; /* Dark text for good contrast */
+            font-family: Arial, sans-serif; /* Clean, readable font */
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container Styling */
+        div {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Error Message Styling */
+        .error-message {
+            color: #dc3545;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Form Group Styling */
+        div > div {
+            margin-bottom: 15px;
+        }
+
+        /* Input Field Styling */
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #f8f9fa;
+            color: #555;
+            box-sizing: border-box;
+        }
+
+        /* Input Field Focus State */
+        input[type="text"]:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+        }
+
+        /* Submit Button Styling */
+        button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+            width: 100%;
+        }
+
+        /* Submit Button Hover and Active Effects */
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        button[type="submit"]:active {
+            background-color: #004085;
+            transform: scale(0.95);
+        }
+
+        /* Link Styling */
+        a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease-in-out;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        /* Centered Paragraph for Register Link */
+        div p {
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
     <div>
-        {% if error%}
-            <p><strong>{{error}}</strong></p>
-        {% endif%}
+        {% if error %}
+            <p class="error-message"><strong>{{ error }}</strong></p>
+        {% endif %}
         <h1>Login</h1>
         <div>
             <form action="/login" method="post">
                 <div>
                     <label for="username">Username : </label>
                     <input type="text" name="username" required>
-
                 </div>
                 <div>
                     <label for="password">Password : </label>
                     <input type="text" name="password" required>
-
                 </div>
                 <div>
                     <button type="submit">Login </button>
-
                 </div>
                 <div>
                     <p>Create an account? <a href="/register">Register here </a>.</p>
@@ -33,6 +126,5 @@
             </form>
         </div>
     </div>
-    
 </body>
 </html>

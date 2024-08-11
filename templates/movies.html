@@ -2,34 +2,39 @@
 
 {% block title %}
     Movies
+    
 {% endblock %}
 
 {% block content %}
     <h1>All movies </h1>
     <div>
-        <form action="/movies" method="post">
-            <label for="moviename">Movie name</label>
-            <input type="text" name="moviename" placeholder="Enter a movie name">
+        <form class="search-form" action="/movies" method="post">
+            <!-- <label for="moviename">Movie name</label> -->
+            <input class="search-input" type="text" name="moviename" placeholder="Enter a movie name" id="search-bar">
 
-            <button type="submit">Search</button>
+            <button class="search-button" type="submit" id="search-btn">Search</button>
         </form>
     </div>
     <div>
-        {%if movies %}
-        <p>Title: {{ movies['Title']}}</p>
-        <p>Year: {{ movies['Year'] }}</p>
-        <p>Genre: {{ movies['Genre'] }}</p>
-        <p>Director: {{ movies['Director'] }}</p>
-        <p>Actors: {{ movies['Actors'] }}</p>
-        <p>Plot: {{ movies['Plot'] }}</p>
-        <p>Imdb rating: {{ movies['imdbRating'] }}</p>
-        <form action="/add-movie" method="POST">
-            <input type="hidden" name="title" value="{{ movies['Title'] }}">
-            <input type="hidden" name="year" value="{{ movies['Year'] }}">
-            <!-- <input type="hidden" name="director" value="{{ movies['Director'] }}"> -->
-            <input type="submit" value="Add to Database">
-        </form>
-        {% endif %}
+        <div class="movies-list">
+            
+{% if movies %}
+<div class="movie-details">
+    <img src="{{movies['Poster']}}" alt="">
+  <h2>{{ movies['Title'] }} ({{ movies['Year'] }})</h2>
+  <p><strong>Genre:</strong> {{ movies['Genre'] }}</p>
+  <p><strong>Director:</strong> {{ movies['Director'] }}</p>
+  <p><strong>Actors:</strong> {{ movies['Actors'] }}</p>
+  <!-- <p><strong>Plot:</strong> {{ movies['Plot'] }}</p> -->
+  <p><strong>IMDB Rating:</strong> {{ movies['imdbRating'] }}</p>
+  
+  <form action="/add-movie" method="POST">
+    <input type="hidden" name="title" value="{{ movies['Title'] }}">
+    <input type="hidden" name="year" value="{{ movies['Year'] }}">
+    <button type="submit">Add Movie</button>
+  </form>
+</div>
+{% endif %}
     </div>
 
 {% endblock %}

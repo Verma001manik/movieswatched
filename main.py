@@ -86,11 +86,24 @@ def register():
         password = request.form.get("password")
         if not username or not password :
             error = "Invalid username or password"
+            return render_template("register.html",error=error)
+            
+        elif len(password) <8:
+            error = "Password length should be atleast 8 characters.."
+            return render_template("register.html",error=error)
+        
+        
         else:
-            hashed_password = generate_password_hash(password=password , method='pbkdf2')
-            new_user =User(username=username, password=hashed_password)
-            db.session.add(new_user)
-            db.session.commit()
+            checkuser = User.query.filter_by(username=username).first()
+            if checkuser:
+                error = "User already exists"
+                return render_template("register.html",error=error)
+            else:
+
+                hashed_password = generate_password_hash(password=password , method='pbkdf2')
+                new_user =User(username=username, password=hashed_password)
+                db.session.add(new_user)
+                db.session.commit()
 
 
             print("Registration successful")
@@ -108,15 +121,25 @@ def logout():
 def search():
     movies = None 
     error = None 
+    friend = None 
     if request.method == "POST":
         friend_name = request.form.get("search")
         print("You searched for : ",friend_name)
+        friend = User.query.filter_by(username=friend_name).first()
+        print(friend)
+        if friend :
+            print("Friend found")
+            movies = friend.movies 
+
+        else :
+            error = "No person with given name was found"
+            print("No friend with given name was found")
 
        
             
 
 
-    return render_template("search.html",error=error)
+    return render_template("search.html",friend=friend, movies=movies,error=error)
 
 @app.route("/profile" ,methods=['GET'])
 @login_required

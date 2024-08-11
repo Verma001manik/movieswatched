@@ -25,11 +25,23 @@
     <h1>Search for your friends ....</h1>
 
     <div>
-        <form action="/search" method="post">
-            <label for="searchfriend">Search</label>
-            <input type="text" name="search"  placeholder="Search for your friends..." required>
-            <button type="submit">Search</button>
+        <form class="search-form" action="/search" method="post">
+            <!-- <label for="searchfriend">Search</label> -->
+            <input  class="search-input" type="text" name="search"  placeholder="Search for your friends..." required>
+            <button class="search-button"  type="submit">Search</button>
         </form>
+    </div>
+
+    <div>
+        {% if movies %}
+        <p>Movies of {{friend.username}}</p>
+            {% for movie in movies %}
+            <ul>
+                <li>{{movie.title}} ({{movie.year}})</li>
+
+            </ul>
+            {%endfor%}
+        {% endif %}
     </div>
 
 {% endblock %}

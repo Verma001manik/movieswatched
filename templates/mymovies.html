@@ -6,10 +6,10 @@
 
 {% block content %}
     <h1>My Movies </h1>
-    <div>
+    <div class="movies-list">
         <ul>
             {% for movie in movies %}
-            <li>
+            <li class="movie-item">
                 <strong>{{ movie.title }} ({{movie.year}})</strong>
                 <!-- <form action="/delete-movie" method="post">
                     <input type="hidden" name="title" value="{{ movie.title }}">
@@ -17,7 +17,7 @@
                     <button type="submit">Delete</button>
                 </form> -->
                 <form action="{{ url_for('delete_movie', movie_id=movie.id) }}" method="POST">
-                    <button type="submit">Delete</button>
+                    <button type="submit" class="delete-btn" >Delete</button>
                 </form>
             </li>
             {% else %}

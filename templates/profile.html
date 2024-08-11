@@ -7,17 +7,17 @@
 {% block content %}
     
     <h2>My Account</h2>
-    <div>
+    <div class="container">
         <label for="username" >Username</label>
-        <input type="text" value="{{ user.username}}"}>
+        <input type="text" value="{{ user.username}}" class="input-field">
 
     </div>
-    <div>
+    <div class="actions">
         <form action="/delete" method="post">
-            <input type="submit" name="delete" value="Delete Account">
+            <input class="delete-btn" type="submit" name="delete" value="Delete Account">
         </form>
 
-        <p><a href="/">Go Home</a></p>
-        <a href="/profile/change-password">Change Password</a>
+        <p ><a href="/" class="link">Go Home</a></p>
+        <a href="/profile/change-password" class="link">Change Password</a>
     </div>
 {% endblock %}
