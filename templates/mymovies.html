@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    My Movies
+{% endblock %}
+
+{% block content %}
+    <h1>My Movies </h1>
+    <div>
+        <ul>
+            {% for movie in movies %}
+            <li>
+                <strong>{{ movie.title }} ({{movie.year}})</strong>
+                <!-- <form action="/delete-movie" method="post">
+                    <input type="hidden" name="title" value="{{ movie.title }}">
+                    <input type="hidden" name="year" value="{{ movie.year }}">
+                    <button type="submit">Delete</button>
+                </form> -->
+                <form action="{{ url_for('delete_movie', movie_id=movie.id) }}" method="POST">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+            {% else %}
+            <li>No movies added yet.</li>
+        {% endfor %}
+        </ul>
+    </div>
+    
+{% endblock %}

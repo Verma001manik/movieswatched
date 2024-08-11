@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Search
+{% endblock %}
+
+{% block content %}
+    <!-- <h1>Search</h1> -->
+    {% if error%}
+    <p><strong>{{error}}</strong></p>
+{% endif%}
+    <!-- <div>
+        <form action="/search" method="post">
+            <label for="moviename">Movie name</label>
+            <input type="text" name="moviename" placeholder="Enter a movie name">
+
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div>
+        {%if movies %}
+        <p>{{ movies['Title']}}</p>
+        {% endif %}
+    </div> -->
+    <h1>Search for your friends ....</h1>
+
+    <div>
+        <form action="/search" method="post">
+            <label for="searchfriend">Search</label>
+            <input type="text" name="search"  placeholder="Search for your friends..." required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+{% endblock %}

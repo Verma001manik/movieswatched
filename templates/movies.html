@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Movies
+{% endblock %}
+
+{% block content %}
+    <h1>All movies </h1>
+    <div>
+        <form action="/movies" method="post">
+            <label for="moviename">Movie name</label>
+            <input type="text" name="moviename" placeholder="Enter a movie name">
+
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div>
+        {%if movies %}
+        <p>Title: {{ movies['Title']}}</p>
+        <p>Year: {{ movies['Year'] }}</p>
+        <p>Genre: {{ movies['Genre'] }}</p>
+        <p>Director: {{ movies['Director'] }}</p>
+        <p>Actors: {{ movies['Actors'] }}</p>
+        <p>Plot: {{ movies['Plot'] }}</p>
+        <p>Imdb rating: {{ movies['imdbRating'] }}</p>
+        <form action="/add-movie" method="POST">
+            <input type="hidden" name="title" value="{{ movies['Title'] }}">
+            <input type="hidden" name="year" value="{{ movies['Year'] }}">
+            <!-- <input type="hidden" name="director" value="{{ movies['Director'] }}"> -->
+            <input type="submit" value="Add to Database">
+        </form>
+        {% endif %}
+    </div>
+
+{% endblock %}
