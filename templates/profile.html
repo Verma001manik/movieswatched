@@ -1,23 +1,35 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Profile
+    {{ friend.username }}'s Profile
 {% endblock %}
 
 {% block content %}
+    <h1>{{ friend.username }}'s Profile</h1>
+    <form>
+        <button class="add-friend-btn">Add friend</button>
+        
+    </form>
     
-    <h2>My Account</h2>
-    <div class="container">
-        <label for="username" >Username</label>
-        <input type="text" value="{{ user.username}}" class="input-field">
-
+    <div class="movies-list">
+        <ul>
+            {% for movie in friend.movies %}
+                <li class="movie-item">
+                    {{ movie.title }} ({{ movie.year }})
+                    <form action="/add-movie" method="POST">
+                        <input type="hidden" name="title" value="{{ movie.title }}">
+                        <input type="hidden" name="year" value="{{ movie.year }}">
+                        <button type="submit" class="add-movie-btn">Add Movie</button>
+                    </form>
+                </li>
+            {% else %}
+                <li>No movies added yet.</li>
+            {% endfor %}
+        </ul>
     </div>
-    <div class="actions">
-        <form action="/delete" method="post">
-            <input class="delete-btn" type="submit" name="delete" value="Delete Account">
-        </form>
+    
+        
+    
 
-        <p ><a href="/" class="link">Go Home</a></p>
-        <a href="/profile/change-password" class="link">Change Password</a>
-    </div>
+    <a href="{{ url_for('search') }}">Back to Search</a>
 {% endblock %}

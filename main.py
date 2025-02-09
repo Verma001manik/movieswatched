@@ -5,7 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests 
 from flask_migrate import Migrate
-
+from dotenv import load_dotenv
+load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -124,6 +125,10 @@ def search():
     friend = None 
     if request.method == "POST":
         friend_name = request.form.get("search")
+
+        if not friend_name :
+            print("Please enter some name")
+            return 
         print("You searched for : ",friend_name)
         friend = User.query.filter_by(username=friend_name).first()
         print(friend)
@@ -141,14 +146,14 @@ def search():
 
     return render_template("search.html",friend=friend, movies=movies,error=error)
 
-@app.route("/profile" ,methods=['GET'])
+@app.route("/myprofile" ,methods=['GET'])
 @login_required
-def profile():
+def myprofile():
     user = current_user
 
-    return render_template("profile.html", user=user)
+    return render_template("myprofile.html", user=user)
 
-@app.route("/profile/change-password", methods=["GET","POST"])
+@app.route("/myprofile/change-password", methods=["GET","POST"])
 @login_required
 def change_password():
     user = current_user
@@ -172,30 +177,20 @@ def change_password():
 
     return render_template("changepassword.html", error=error)
 
-@app.route("/movies" , methods=["GET", "POST"])
+@app.route("/movies", methods=["GET", "POST"])
 @login_required
 def movies():
-    movies = None 
-    error = None 
+    movies = None
+    error = None
     if request.method == "POST":
         movie_name = request.form.get("moviename")
-        if not movie_name :
-            print("No movie name entered")
-            error = "Invalid movie name"
+        if not movie_name:
+            error = "No movie name entered"
         else:
-            res = search_movies(movie_name=movie_name)
-            if res :
-                # print(res)
-                print("--------------------------------------")
-                print(res.json())
-                re = res.json()
-
-                print(re['Title'])
-                movies =re 
-            else:
-                error = "Something went wrong"
-            
+            movies, error = search_movies(movie_name)
+    
     return render_template("movies.html", movies=movies, error=error)
+
 
 @app.route("/mymovies", methods=["GET"])
 @login_required
@@ -213,22 +208,25 @@ def mymovies():
     return render_template("mymovies.html", movies=movies)
 
 
-api = 'https://www.omdbapi.com/?t=interstellar&apikey=8174a6ce'
+import os 
+import requests
+api_key = os.getenv("API_KEY")
 def search_movies(movie_name):
     if not movie_name:
-        print("Please enter valid movie name")
-    else :
-        query = f'https://www.omdbapi.com/?t={movie_name}&apikey=8174a6ce'
-        result = requests.get(query)
+        return None, "Please enter a valid movie name"
 
+    query = f'https://www.omdbapi.com/?t={movie_name}&apikey={api_key}'
+    result = requests.get(query)
 
-        if result :
-            print("Result")
-            # print(result.json())
-            # return result 
-            return result 
+    if result.status_code == 200:
+        data = result.json()
+        if data.get('Response') == 'True':
+            return data, None
         else:
-            print("No movie found with this name")
+            return None, "No movie found with this name"
+    else:
+        return None, "Failed to connect to the movie database"
+
 
 @app.route('/add-movie' , methods=["POST"])
 @login_required
@@ -259,6 +257,25 @@ def delete_movie(movie_id):
     db.session.commit()
     print('Movie deleted successfully')
     return redirect(url_for("mymovies"))
+
+
+@app.route("/myfriends", methods=["GET", "POST"])
+@login_required
+def myfriends():
+    print("Your friends will appear here mate")
+    return render_template("myfriends.html")
+
+
+@app.route("/profile/<username>")
+@login_required 
+def profile(username):
+    friend = User.query.filter_by(username=username).first()
+    if not friend:
+        flash("User not found", "danger")
+
+        return redirect(url_for("search"))
+    return render_template("profile.html", friend=friend) 
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()

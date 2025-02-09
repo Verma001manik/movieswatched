@@ -226,3 +226,45 @@ p strong {
   .movie-details button:hover {
     background-color: #45a049;
   }
+
+  .add-friend-btn {
+    background-color: #28a745; /* Green */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.add-friend-btn:hover {
+    background-color: #218838; /* Darker Green */
+    transform: scale(1.05);
+}
+
+.add-friend-btn:active {
+    background-color: #1e7e34;
+    transform: scale(0.95);
+}
+
+.add-movie-btn {
+    background-color: #007bff; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.add-movie-btn:hover {
+    background-color: #0056b3; /* Darker Blue */
+    transform: scale(1.05);
+}
+
+.add-movie-btn:active {
+    background-color: #004085;
+    transform: scale(0.95);
+}

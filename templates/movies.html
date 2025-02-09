@@ -6,6 +6,9 @@
 {% endblock %}
 
 {% block content %}
+{% if error %}
+<p class="error-message"><strong>{{ error }}</strong></p>
+{% endif %}
     <h1>All movies </h1>
     <div>
         <form class="search-form" action="/movies" method="post">
