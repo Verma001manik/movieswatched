@@ -276,6 +276,19 @@ def profile(username):
         return redirect(url_for("search"))
     return render_template("profile.html", friend=friend) 
 
+@app.route("/addfriend/<int:friend_id>", methods=["POST"])
+@login_required
+def addfriend(friend_id):
+    friend = User.query.get(friend_id)
+    if not friend:
+        flash("User not found!", "error")
+        return redirect(url_for("search"))
+    
+    print("You have added a friend ,,,", friend)
+    flash(f"You have added {friend.username} as a friend!", "success")
+    return redirect(url_for("search"))
+
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
